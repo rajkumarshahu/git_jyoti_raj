@@ -19,6 +19,7 @@ import { FooterComponent } from './footer/footer.component';
 import { UserServices } from './login/user.services';
 import { findSafariExecutable } from 'selenium-webdriver/safari';
 
+import { AuthguardGuard } from './authguard.guard';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { findSafariExecutable } from 'selenium-webdriver/safari';
     HttpModule,
     InMemoryWebApiModule.forRoot(UserData, {dataEncapsulation: false})
   ],
-  providers: [UserServices],
+  providers: [UserServices, AuthguardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

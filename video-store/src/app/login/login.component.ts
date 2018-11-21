@@ -28,16 +28,16 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.url = this.route.snapshot.queryParamMap['returnUrl'] || '/';
+    this.url = this.route.snapshot.queryParamMap['returnUrl'] || '/home';
   }
 
   onLogin() {
     this.userService.getLog(this.userModel.userName, this.userModel.password).
     subscribe( p => {
-      console.log(p);
-      ////this.userModel = p[0];
-     // localStorage.setItem('isLog', String(this.userModel.isAdmin));
-      //this.router.navigate([this.url]);
+      this.userModel = p[0];
+      localStorage.setItem('isLoged', String(this.userModel.isAdmin));
+      localStorage.setItem('userName', String(this.userModel.userName));
+      this.router.navigate([this.url]);
     }, error => {
       console.log('error: coouldnot found !');
     });
