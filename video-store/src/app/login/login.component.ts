@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.url = this.route.snapshot.queryParamMap['returnUrl'] || '/home';
+    this.url = this.route.snapshot.queryParamMap['returnUrl'] || '/admin';
   }
 
   onLogin() {

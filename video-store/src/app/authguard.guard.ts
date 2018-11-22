@@ -4,16 +4,19 @@ import { Observable } from 'rxjs';
 
 @Injectable()
 export class AuthguardGuard implements CanActivate {
+  public userName: string = '';
   constructor(private router : Router){}
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
-	if (localStorage.getItem('isLoged') == 'true') {
-		return true;
-		//this.router.navigate(['login'], { queryParams: { returnUrl: state.url }});
-	}
-	else 
-    return  false;
+    if (localStorage.getItem('isLoged') == 'true') {
+      this.userName = localStorage.getItem('userName');
+      return true;
+    }
+    else {
+      //this.router.navigate(['login'], { queryParams: { returnUrl: state.url }});
+      this.userName = '';
+      return false;
+    }
   }
-  
 }
