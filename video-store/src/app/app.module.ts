@@ -20,6 +20,7 @@ import { UserServices } from './login/user.services';
 import { findSafariExecutable } from 'selenium-webdriver/safari';
 
 import { AuthguardGuard } from './authguard.guard';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AuthguardGuard } from './authguard.guard';
     FooterComponent
   ],
   imports: [
+    NgbModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
