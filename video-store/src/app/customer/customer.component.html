@@ -1,0 +1,26 @@
+<div>
+
+<div class="table table-responsive mt-8">
+  <table class="table  table-bordered table-striped table-hover ">
+    <tr>
+      <th class="text-center">First Name</th>
+      <th class="text-center">Last Name</th>
+      <th class="text-center">Address</th>
+      <th class="text-center">City</th>
+      <th class="text-center">Phone Number</th>
+      <th class="text-center">Status</th>
+    </tr>
+    <tbody>
+      <tr *ngFor="let customer of customerList">
+        <td>{{customer.firstName}}</td>
+        <td>{{customer.lastName}}</td>
+        <td>{{customer.address}}</td>
+        <td>{{customer.city}}</td>
+        <td>{{customer.phoneNumber}}</td>
+        <td>{{customer.status}}</td>
+      </tr>
+    </tbody>  
+  </table>
+
+</div>  
+</div>

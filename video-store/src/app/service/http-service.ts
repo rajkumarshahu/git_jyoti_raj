@@ -14,7 +14,7 @@ export class HttpServices {
     constructor(private http: Http) { }
 
     private handleError(error: Response): Observable<any> {
-        return Observable.throw(error.json().error || 'Server error');
+      return Observable.throw(error.json().error || 'Server error');
     }
 
     private extractData(response: Response) {
@@ -24,8 +24,8 @@ export class HttpServices {
 
     // GET
     public get(url: string): Observable<any> {
-        const _url: string  = '${this.baseUrl}/${this.url}';
-        return this.http.get(_url, this.options)
+        console.log(url);
+        return this.http.get(url, this.options)
         .pipe(
             map(this.extractData),
             catchError(this.handleError));
@@ -33,7 +33,6 @@ export class HttpServices {
 
     //DELETE
     public delete(url: string): Observable<any> {
-        const _url: string = '${this.baseUrl}/${this.url}';
         return this.http.delete(url, this.options)
             .pipe(
                 map(this.extractData),
@@ -43,8 +42,9 @@ export class HttpServices {
 
     //POST
     public post(url: string, data: any): Observable<any> {
-        const _url: string = '${this.baseUrl}/${this.url}';
-        return this.http.post(_url, data, this.options)
+        console.log(url);
+        console.log(data);
+        return this.http.post(url, data, this.options)
                .pipe(
                     map(this.extractData),
                     catchError(this.handleError)
@@ -53,8 +53,8 @@ export class HttpServices {
 
     //PUT
     public put(url: string, data: any, id: any): Observable<any> {
-        const _url: string = '${this.baseUrl}/${this.url}/${this.id}';
-        return this.http.put(_url, data, this.options)
+        url =  url + '/' + id;
+             return this.http.put(url, data, this.options)
                .pipe(
                     map(this.extractData),
                     catchError(this.handleError)
