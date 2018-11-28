@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Observable, of} from 'rxjs';
 import { map, catchError} from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 @Injectable()
@@ -14,7 +15,7 @@ export class HttpServices {
     constructor(private http: Http) { }
 
     private handleError(error: Response): Observable<any> {
-      return Observable.throw(error.json().error || 'Server error');
+      return Observable.throw(error || 'Server error');
     }
 
     private extractData(response: Response) {
@@ -24,7 +25,7 @@ export class HttpServices {
 
     // GET
     public get(url: string): Observable<any> {
-        console.log(url);
+
         return this.http.get(url, this.options)
         .pipe(
             map(this.extractData),
@@ -32,7 +33,8 @@ export class HttpServices {
     }
 
     //DELETE
-    public delete(url: string): Observable<any> {
+    public delete(url: string, id: any): Observable<any> {
+        url =  url + "/" + id;
         return this.http.delete(url, this.options)
             .pipe(
                 map(this.extractData),
@@ -42,12 +44,11 @@ export class HttpServices {
 
     //POST
     public post(url: string, data: any): Observable<any> {
-        console.log(url);
-        console.log(data);
+      
         return this.http.post(url, data, this.options)
                .pipe(
                     map(this.extractData),
-                    catchError(this.handleError)
+                    catchError(err => of(err))
                );
     }
 

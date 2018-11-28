@@ -3,6 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IVideo } from './video';
 import { Videoservices } from './videoservices';
+import { IUser } from '../login/user';
+import { AuthguardGuard } from '../authguard.guard';
 
 @Component({
   selector: 'app-video',
@@ -34,17 +36,24 @@ export class VideoComponent implements OnInit {
     { id: 5, name: '5 Stars' }
   ];
 
-  status = [
+  statuslist = [
     { id: 1, name: 'Available' },
     { id: 2, name: 'Unavailable' }
   ];
 
+  private id: number = 0 ;
+  private title: string = '';
+  private runningTime: string = '';
+  private genre: string = '';
+  private rating: string = '';
+  private director: string = '';
+  private status: string = '';
 
   videoList: IVideo[];
-  videoModel: IVideo  = this.intializeProperty();
-
+  
   constructor(private modalService: NgbModal,
-    private videoService: Videoservices ) { }
+    private videoService: Videoservices,
+    private autoguard: AuthguardGuard ) { }
 
   ngOnInit() {
     this.getVideoList();
@@ -53,31 +62,70 @@ export class VideoComponent implements OnInit {
   getVideoList() {
     this.videoService.getVideo().
     subscribe( p => {
-      console.log(p);
       this.videoList = p;
     }, error => {
       console.log('error: coouldnot found !');
     });
   }
-  onAdd(content) {
+  onOpenModal(content, data?) {
     this.modalService.open(content);
-    this.intializeProperty();
+    data != null ? this.onDataBind(data) : this.onClear();
   }
-
   onSave() {
-    this.videoService.postVideo(this.videoModel)
+      if (this.id == 0){
+      this.videoService.postVideo(this.getDataBind())
+      .subscribe(p => {
+        this.getVideoList();
+        this.modalService.dismissAll();
+      }, error => { console.log(error); } );
+    }
+    else 
+    {
+      this.videoService.putVideo(this.getDataBind())
+      .subscribe(p => {
+        this.getVideoList();
+        this.modalService.dismissAll();
+      }, error => { console.log(error); } );
+    }
+  }
+ 
+  onDelete(id) {
+    this.videoService.deleteVideo(id)
     .subscribe(p => {
+      this.getVideoList();
     }, error => { console.log(error); } );
   }
 
-  intializeProperty(): IVideo {
-        return {
-            title:  '',
-            runningTime: '',
-            genre: '',
-            rating: '',
-            director: '',
-            status: ''
-        };
+  onDataBind(data) {
+    this.title = data.title;
+    this.id = data.id;
+    this.runningTime = data.runningTime ;
+    this.genre = data.genre;
+    this.rating = data.rating;
+    this.director = data.director;
+    this.status = data.status;
+  }
+
+  getDataBind() : IVideo {
+    return {
+      id: this.id == 0 ? this.videoList.length + 1 : this.id,
+      title: this.title,
+      runningTime: this.runningTime,
+      genre: this.genre,
+      rating: this.rating,
+      director: this.director,
+      status: this.status
     }
+  }
+
+  onClear(){
+    this.title = '';
+    this.id = 0;
+    this.runningTime = '';
+    this.genre = '';
+    this.rating = '';
+    this.director = '';
+    this.status = '';
+  }
+  
 }

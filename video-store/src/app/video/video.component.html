@@ -7,7 +7,7 @@
     </form>
     <div class="pull-right">
       <!-- Button trigger modal -->
-      <button class="btn btn-outline-primary mb-2 mr-2" (click)="onAdd(content)">Add Video</button>
+      <button class="btn btn-outline-primary mb-2 mr-2" (click)="onOpenModal(content)">Add Video</button>
     </div>
   </nav>
 </div>
@@ -23,20 +23,20 @@
       <th class="text-center"></th>
     </tr>
     <tbody>
-      <tr *ngFor="let video of videoList">
-        <td>{{video.title}}</td>
-        <td>{{video.runningTime}}</td>
-        <td>{{video.genre}}</td>
-        <td>{{video.rating}}</td>
-        <td>{{video.director}}</td>
-        <td>{{video.status}}</td>
+      <tr *ngFor="let v of videoList">
+        <td>{{v.title}}</td>
+        <td>{{v.runningTime}}</td>
+        <td>{{v.genre}}</td>
+        <td>{{v.rating}}</td>
+        <td>{{v.director}}</td>
+        <td>{{v.status}}</td>
         <td>
-          <a href="" class="btn btn-outline-primary btn-sm">
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="onOpenModal(content, v)">
             Update
-          </a>
-          <a href="" class="btn btn-danger btn-sm">
-            Delete
-          </a>
+          </button>
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="onDelete(v.id)">
+              Delete
+          </button>
         </td>
       </tr>
 
@@ -57,24 +57,24 @@
         
           <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" name="title" [(ngModel)]="videoModel.title">
+            <input type="text" class="form-control" name="title" [(ngModel)]="title">
           </div>
 
           <div class="form-group">
             <label for="runningtime">Running Time:</label>
-            <input type="text" class="form-control" name="runningtime" [(ngModel)]="videoModel.runningTime">
+            <input type="text" class="form-control" name="runningtime" [(ngModel)]="runningTime">
           </div>
 
           <div class="form-group">
             <label for="genre">Genre:</label>
-            <select class="form-control" name="genre" [(ngModel)]="videoModel.genre">
+            <select class="form-control" name="genre" [(ngModel)]="genre">
               <option *ngFor="let genere of generes" [value]="genere.name">{{ genere.name }}</option>
             </select>
           </div>
 
             <div class="form-group">
               <label for="rating">Rating:</label>
-              <select class="form-control" name="rating" [(ngModel)]="videoModel.rating">
+              <select class="form-control" name="rating" [(ngModel)]="rating">
                 <option *ngFor="let rating of ratings" 
                   [value]="rating.name" >{{
                   rating.name }}</option>
@@ -83,13 +83,13 @@
 
             <div class="form-group">
               <label for="dir">Director:</label>
-              <input type="text" class="form-control" name="dir" [(ngModel)]="videoModel.director">
+              <input type="text" class="form-control" name="dir" [(ngModel)]="director">
             </div>
 
             <div class="form-group">
               <label for="status">Status:</label>
-              <select class="form-control" name="status" [(ngModel)]="videoModel.status">
-                <option *ngFor="let s of status" [value]="s.name">{{ s.name }}</option>
+              <select class="form-control" name="status" [(ngModel)]="status">
+                <option *ngFor="let s of statuslist" [value]="s.name">{{ s.name }}</option>
               </select>
             </div>
             

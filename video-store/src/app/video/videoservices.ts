@@ -6,23 +6,26 @@ import { IVideo } from './video';
 @Injectable()
 export class Videoservices {
 
+    private url = "api/videos";
+
     constructor(private service: HttpServices) { }
 
+
     getVideo(): Observable<IVideo[]> {
-      return this.service.get('api/videos');
+      return this.service.get(this.url);
     }
 
     postVideo(data: IVideo): Observable<any> {
-        return this.service.post('api/videos', data);
+        return this.service.post(this.url, data);
+        
     }
-    // intializeProperty(): IVideo {
-    //     return {
-    //         firstName:  '',
-    //         lastName: '',
-    //         address: '',
-    //         city: '',
-    //         phoneNumber: '',
-    //         status: ''
-    //     };
-    // }
+
+    putVideo(data: IVideo): Observable<any> {
+        return this.service.put(this.url, data, data.id);
+        
+    }
+    
+    deleteVideo(id: any): Observable<any> {
+        return this.service.delete(this.url, id);
+    }
 }
