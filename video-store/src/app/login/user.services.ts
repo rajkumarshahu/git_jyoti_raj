@@ -21,7 +21,6 @@ export class UserServices {
     getLog(userName: string, password: string): Observable<IUser> {
         if (userName !== '' && password !== '') {
             const url = 'api/users?userName=' + userName + '&password=' + password;
-            console.log(url);
             return this.get(url);
         } else  {
                 return of(this.intializeProperty());
