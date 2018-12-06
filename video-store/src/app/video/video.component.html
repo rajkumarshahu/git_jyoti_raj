@@ -5,9 +5,9 @@
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
 
     </form>
-    <div class="pull-right">
+    <div class="pull-right" *ngIf="autoguard.isLoged">
       <!-- Button trigger modal -->
-      <button class="btn btn-outline-primary mb-2 mr-2" (click)="onOpenModal(content)">Add Video</button>
+      <button class="btn btn-outline-primary mb-2 mr-2" (click)="onOpenModal(content, null, 'Add Video', 'save')">Add Video</button>
     </div>
   </nav>
 </div>
@@ -20,7 +20,9 @@
       <th class="text-center">Rating</th>
       <th class="text-center">Director</th>
       <th class="text-center">Status</th>
-      <th class="text-center"></th>
+      <th class="text-center" *ngIf="autoguard.isLoged" ></th>
+      <th class="text-center" *ngIf="autoguard.isLoged"></th>
+      <th class="text-center" *ngIf="!autoguard.isLoged"></th>
     </tr>
     <tbody>
       <tr *ngFor="let v of videoList">
@@ -30,16 +32,22 @@
         <td>{{v.rating}}</td>
         <td>{{v.director}}</td>
         <td>{{v.status}}</td>
-        <td>
-          <button type="button" class="btn btn-outline-primary btn-sm" (click)="onOpenModal(content, v)">
+        <td *ngIf="autoguard.isLoged">
+          <button type="button" class="btn btn-outline-primary btn-sm" (click)="onOpenModal(content, v, 'Update Video', 'Update')">
             Update
           </button>
+        </td>
+        <td *ngIf="autoguard.isLoged">
           <button type="button" class="btn btn-outline-primary btn-sm" (click)="onDelete(v.id)">
               Delete
           </button>
         </td>
+        <td *ngIf="!autoguard.isLoged">
+            <button [hidden]="v.status !== 'Available'" type="button" class="btn btn-outline-primary btn-sm" (click)="onOpenModal(content, v, 'Reserved Video', 'Reserved')">
+                Reserverd
+            </button>
+          </td>
       </tr>
-
     </tbody>
   </table>
 
@@ -47,56 +55,65 @@
   <div>
     <ng-template #content let-modal>
       <div class="modal-header">
-        <h4 class="modal-title">Add Video</h4>
+        <h4 class="modal-title">{{modelTitle}}</h4>
         <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
 
       <div class="modal-body float-right">
-        
           <div class="form-group">
             <label for="title">Title:</label>
-            <input type="text" class="form-control" name="title" [(ngModel)]="title">
+            <input *ngIf="autoguard.isLoged" type="text" class="form-control" name="title" [(ngModel)]="title">
+            <label class="lbl_reserved" *ngIf="!autoguard.isLoged">{{title}}</label>
           </div>
 
           <div class="form-group">
             <label for="runningtime">Running Time:</label>
-            <input type="text" class="form-control" name="runningtime" [(ngModel)]="runningTime">
+            <input type="text" class="form-control" name="runningtime" [(ngModel)]="runningTime" *ngIf="autoguard.isLoged">
+            <label class="lbl_reserved" *ngIf="!autoguard.isLoged">{{runningTime}}</label>
           </div>
 
           <div class="form-group">
             <label for="genre">Genre:</label>
-            <select class="form-control" name="genre" [(ngModel)]="genre">
+            <select class="form-control" name="genre" [(ngModel)]="genre" *ngIf="autoguard.isLoged">
               <option *ngFor="let genere of generes" [value]="genere.name">{{ genere.name }}</option>
             </select>
+            <label class="lbl_reserved" *ngIf="!autoguard.isLoged">{{genre}}</label>
           </div>
 
             <div class="form-group">
               <label for="rating">Rating:</label>
-              <select class="form-control" name="rating" [(ngModel)]="rating">
+              <select class="form-control" name="rating" [(ngModel)]="rating" *ngIf="autoguard.isLoged">
                 <option *ngFor="let rating of ratings" 
                   [value]="rating.name" >{{
                   rating.name }}</option>
               </select>
+              <label class="lbl_reserved" *ngIf="!autoguard.isLoged">{{rating}}</label>
             </div>
 
             <div class="form-group">
               <label for="dir">Director:</label>
-              <input type="text" class="form-control" name="dir" [(ngModel)]="director">
+              <input type="text" class="form-control" name="dir" [(ngModel)]="director" *ngIf="autoguard.isLoged">
+              <label class="lbl_reserved" *ngIf="!autoguard.isLoged">{{director}}</label>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" *ngIf="autoguard.isLoged">
               <label for="status">Status:</label>
               <select class="form-control" name="status" [(ngModel)]="status">
                 <option *ngFor="let s of statuslist" [value]="s.name">{{ s.name }}</option>
               </select>
             </div>
-            
-      </div>
 
+            <div class="form-group" *ngIf="!autoguard.isLoged">
+                <label for="customer">Customer:</label>
+                <select class="form-control" name="customer">
+                  <option *ngFor="let s of customerList" [value]="s.firstName">{{s.firstName}} {{s.lastName}}</option>
+                </select>
+            </div>
+      </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-light" (click)="onSave()">Save</button>
+        <button type="button" class="btn btn-light" (click)="onSave()" >{{saveButton}}</button>
         <button type="button" class="btn btn-light" (click)="modal.close('Close click')">Close</button>
       </div>
   </ng-template>

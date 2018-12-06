@@ -3,7 +3,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IVideo } from './video';
 import { Videoservices } from './videoservices';
-import { IUser } from '../login/user';
+import { ICustomer } from '../customer/customer';
+import { Customerservice } from '../customer/customerservice';
 import { AuthguardGuard } from '../authguard.guard';
 
 @Component({
@@ -41,6 +42,8 @@ export class VideoComponent implements OnInit {
     { id: 2, name: 'Unavailable' }
   ];
 
+  private modelTitle: string ;
+  private saveButton: string;
   private id: number = 0 ;
   private title: string = '';
   private runningTime: string = '';
@@ -50,13 +53,28 @@ export class VideoComponent implements OnInit {
   private status: string = '';
 
   videoList: IVideo[];
+  customerList: ICustomer[];
   
   constructor(private modalService: NgbModal,
     private videoService: Videoservices,
-    private autoguard: AuthguardGuard ) { }
+    private autoguard: AuthguardGuard,
+    private customerService: Customerservice 
+    ) { }
 
   ngOnInit() {
     this.getVideoList();
+    if (!this.autoguard.isLoged){
+      this.getCustomerList();
+    }
+  }
+
+  getCustomerList() {
+    this.customerService.getCustomer().
+    subscribe( p => {
+      this.customerList = p;
+    }, error => {
+      console.log('error: coouldnot found !');
+    });
   }
 
   getVideoList() {
@@ -67,7 +85,9 @@ export class VideoComponent implements OnInit {
       console.log('error: coouldnot found !');
     });
   }
-  onOpenModal(content, data?) {
+  onOpenModal(content, data, modelTitle, saveButton) {
+    this.modelTitle = modelTitle;
+    this.saveButton = saveButton;
     this.modalService.open(content);
     data != null ? this.onDataBind(data) : this.onClear();
   }
@@ -114,7 +134,7 @@ export class VideoComponent implements OnInit {
       genre: this.genre,
       rating: this.rating,
       director: this.director,
-      status: this.status
+      status: this.saveButton === 'Reserved' ? 'Unavailable' : this.status
     }
   }
 

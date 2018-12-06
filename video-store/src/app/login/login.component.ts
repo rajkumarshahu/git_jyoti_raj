@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
+import { AuthguardGuard } from '../authguard.guard';
 import { IUser } from './user';
 import { UserServices } from './user.services';
 
@@ -24,11 +24,12 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private userService: UserServices
+    private userService: UserServices,
+    private autoguard: AuthguardGuard
   ) { }
 
   ngOnInit() {
-    this.url = this.route.snapshot.queryParamMap['returnUrl'] || '/admin';
+    this.url = this.route.snapshot.queryParamMap['returnUrl'] || '/video';
   }
 
   onLogin() {
@@ -37,6 +38,8 @@ export class LoginComponent implements OnInit {
       this.userModel = p[0];
       localStorage.setItem('isLoged', String(this.userModel.isAdmin));
       localStorage.setItem('userName', String(this.userModel.userName));
+      this.autoguard.isLoged = true;
+      this.autoguard.userName = this.userModel.userName;
       this.router.navigate([this.url]);
     }, error => {
       console.log('error: coouldnot found !');

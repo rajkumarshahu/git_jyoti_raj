@@ -27,7 +27,9 @@ export class UserData implements InMemoryDbService {
 
         let videos: IVideo[] = [
             {id: 1, title: 'Star Wars', runningTime: '120 Minutes', genre: 'Science Fiction',
-            rating: '5 Stars', director: 'Richard Marquand', status: 'Available'}
+            rating: '5 Stars', director: 'Richard Marquand', status: 'Available'},
+            {id: 2, title: 'Star Wars', runningTime: '120 Minutes', genre: 'Science Fiction',
+            rating: '5 Stars', director: 'Richard Marquand', status: 'Unavailable'}
         ];
 
         return { users, customers, videos };

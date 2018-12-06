@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-
 import { AuthguardGuard } from './authguard.guard';
 
 @Component({
@@ -11,9 +10,6 @@ import { AuthguardGuard } from './authguard.guard';
 export class AppComponent {
   title = 'Video Store';
   
-  isLoged: boolean = false;
-  userName: string = '';
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -24,6 +20,8 @@ export class AppComponent {
 
   onLogout() {
     localStorage.clear();
+    this.autoguard.userName = "" ;
+    this.autoguard.isLoged = false;
     this.router.navigate(['/home']);
   }
 

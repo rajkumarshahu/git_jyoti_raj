@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-
 import { ICustomer } from './customer';
 import { Customerservice } from './customerservice';
-
-
 
 @Component({
   selector: 'app-customer',
@@ -26,7 +23,6 @@ export class CustomerComponent implements OnInit {
   getCustomerList() {
     this.customerService.getCustomer().
     subscribe( p => {
-      console.log(p);
       this.customerList = p;
     }, error => {
       console.log('error: coouldnot found !');
