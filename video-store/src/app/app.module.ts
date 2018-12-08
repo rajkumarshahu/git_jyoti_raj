@@ -26,6 +26,7 @@ import { findSafariExecutable } from 'selenium-webdriver/safari';
 import { Customerservice } from './customer/customerservice';
 import { Videoservices } from './video/videoservices';
 import { HttpServices } from './service/http-service';
+import { HttpClientModule }    from '@angular/common/http';
 
 import { AuthguardGuard } from './authguard.guard';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -51,7 +52,8 @@ import { VideoComponent } from './video/video.component';
     HttpModule,
     MatTableModule,
     MatInputModule,
-    InMemoryWebApiModule.forRoot(UserData, {dataEncapsulation: false})
+    HttpClientModule
+    //InMemoryWebApiModule.forRoot(UserData, {dataEncapsulation: false})
   ],
   providers: [HttpServices, UserServices, AuthguardGuard, Customerservice, Videoservices],
   bootstrap: [AppComponent]

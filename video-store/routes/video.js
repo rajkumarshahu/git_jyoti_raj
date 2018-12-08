@@ -12,6 +12,7 @@ routeVideo.get('/video', (req, res) => {
    baseRouter.list(controller, req, res);
 })
 
+
 routeVideo.get('/video/:_id', (req, res) => {
     baseRouter.list(controller, req, res);
 })

@@ -1,5 +1,5 @@
 export interface IVideo {
-    id: number
+    _id: string;
     title: string;
     runningTime: string;
     genre: string;

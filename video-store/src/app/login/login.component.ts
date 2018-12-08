@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   private url: string = '' ;
   private iUser:  IUser[];
   private userModel: IUser = {
-    id: 0,
     userName: '',
     password: '',
     isAdmin: false
@@ -33,11 +32,9 @@ export class LoginComponent implements OnInit {
   }
 
   onLogin() {
-    this.userService.getLog(this.userModel.userName, this.userModel.password).
+    this.userService.getUser(this.userModel.userName, this.userModel.password).
     subscribe( p => {
-      this.userModel = p[0];
-      localStorage.setItem('isLoged', String(this.userModel.isAdmin));
-      localStorage.setItem('userName', String(this.userModel.userName));
+      this.userModel = p;
       this.autoguard.isLoged = true;
       this.autoguard.userName = this.userModel.userName;
       this.router.navigate([this.url]);

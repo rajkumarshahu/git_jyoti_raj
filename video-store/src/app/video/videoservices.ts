@@ -6,26 +6,25 @@ import { IVideo } from './video';
 @Injectable()
 export class Videoservices {
 
-    private url = "api/videos";
+    private url = "http://localhost:3000/api/video";
 
-    constructor(private service: HttpServices) { }
-
+    constructor(private service: HttpServices,
+        ) { }
 
     getVideo(): Observable<IVideo[]> {
       return this.service.get(this.url);
     }
 
-    postVideo(data: IVideo): Observable<any> {
+    postVideo(data: any): Observable<any> {
         return this.service.post(this.url, data);
-        
     }
 
-    putVideo(data: IVideo): Observable<any> {
-        return this.service.put(this.url, data, data.id);
-        
+    putVideo(data: any, id: any): Observable<any> {
+        this.url = this.url + "/" + id;
+        return this.service.put(this.url, data);   
     }
     
     deleteVideo(id: any): Observable<any> {
-        return this.service.delete(this.url, id);
+        return this.service.delete(this.url + "/" + id);
     }
 }

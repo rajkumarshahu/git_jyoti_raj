@@ -9,7 +9,7 @@ export class Customerservice {
     constructor(private service: HttpServices) { }
 
     getCustomer(): Observable<ICustomer[]> {
-      return this.service.get('api/customers');
+      return this.service.get('http://localhost:3000/api/customer');
     }
 
     intializeProperty(): ICustomer {

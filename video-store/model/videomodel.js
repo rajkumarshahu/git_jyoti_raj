@@ -9,4 +9,4 @@ const videoSchema = new mongoose.Schema({
     status: { type: String }
 });
 
-module.exports =  mongoose.model('Video', videoSchema)
+module.exports =  mongoose.model('video', videoSchema)

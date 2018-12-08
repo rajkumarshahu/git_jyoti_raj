@@ -5,7 +5,7 @@ import { IVideo } from '../video/video';
 
 export class UserData implements InMemoryDbService {
     createDb() {
-        let users: IUser[] =  [
+       /* let users: IUser[] =  [
             { id: 1, userName: 'admin', password: 'admin', isAdmin: true},
             { id: 2, userName: 'raj', password: 'raj', isAdmin: false}
         ];
@@ -31,7 +31,9 @@ export class UserData implements InMemoryDbService {
             {id: 2, title: 'Star Wars', runningTime: '120 Minutes', genre: 'Science Fiction',
             rating: '5 Stars', director: 'Richard Marquand', status: 'Unavailable'}
         ];
-
+       
         return { users, customers, videos };
+        */
+       return {};
     }
 }

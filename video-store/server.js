@@ -7,6 +7,15 @@ const mongoose = require('mongoose');
 // Get our API routes
 
 const app = express();
+const cors = require('cors');
+
+//Cor
+
+const corsOptions = {
+  origin: 'http://localhost:4200',
+  optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 // Parsers for POST data
 app.use(bodyParser.json());
@@ -24,7 +33,8 @@ db.on('error', console.error.bind(console, 'connection error:'));
 app.use('/api', 
   [
     require('./routes/video'),
-    require('./routes/user')
+    require('./routes/user'),
+    require('./routes/customer')
 ]);
 
 

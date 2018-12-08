@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
-import { Observable, of} from 'rxjs';
+import { Observable, of, throwError} from 'rxjs';
 import { map, catchError} from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
@@ -15,7 +15,7 @@ export class HttpServices {
     constructor(private http: Http) { }
 
     private handleError(error: Response): Observable<any> {
-      return Observable.throw(error || 'Server error');
+      return  throwError(error || 'Server Error');
     }
 
     private extractData(response: Response) {
@@ -25,16 +25,15 @@ export class HttpServices {
 
     // GET
     public get(url: string): Observable<any> {
-
-        return this.http.get(url, this.options)
+        return this.http.get(url)
         .pipe(
             map(this.extractData),
-            catchError(this.handleError));
+           catchError(this.handleError)
+        );
     }
 
     //DELETE
-    public delete(url: string, id: any): Observable<any> {
-        url =  url + "/" + id;
+    public delete(url: string): Observable<any> {
         return this.http.delete(url, this.options)
             .pipe(
                 map(this.extractData),
@@ -53,8 +52,8 @@ export class HttpServices {
     }
 
     //PUT
-    public put(url: string, data: any, id: any): Observable<any> {
-        url =  url + '/' + id;
+    public put(url: string, data: any): Observable<any> {
+        console.log(url);
              return this.http.put(url, data, this.options)
                .pipe(
                     map(this.extractData),

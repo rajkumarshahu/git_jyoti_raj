@@ -44,7 +44,7 @@ export class VideoComponent implements OnInit {
 
   private modelTitle: string ;
   private saveButton: string;
-  private id: number = 0 ;
+  private id: string = '' ;
   private title: string = '';
   private runningTime: string = '';
   private genre: string = '';
@@ -63,8 +63,8 @@ export class VideoComponent implements OnInit {
 
   ngOnInit() {
     this.getVideoList();
-    if (!this.autoguard.isLoged){
-      this.getCustomerList();
+     if (!this.autoguard.isLoged){
+     this.getCustomerList();
     }
   }
 
@@ -80,9 +80,10 @@ export class VideoComponent implements OnInit {
   getVideoList() {
     this.videoService.getVideo().
     subscribe( p => {
+      console.log(p);
       this.videoList = p;
-    }, error => {
-      console.log('error: coouldnot found !');
+    }, (error) => {
+      console.log('error: coouldnot found !' + JSON.stringify(error));
     });
   }
   onOpenModal(content, data, modelTitle, saveButton) {
@@ -92,7 +93,8 @@ export class VideoComponent implements OnInit {
     data != null ? this.onDataBind(data) : this.onClear();
   }
   onSave() {
-      if (this.id == 0){
+     console.log(this.id);
+      if (this.id === ''){
       this.videoService.postVideo(this.getDataBind())
       .subscribe(p => {
         this.getVideoList();
@@ -101,7 +103,7 @@ export class VideoComponent implements OnInit {
     }
     else 
     {
-      this.videoService.putVideo(this.getDataBind())
+      this.videoService.putVideo(this.getDataBind(), this.id)
       .subscribe(p => {
         this.getVideoList();
         this.modalService.dismissAll();
@@ -118,7 +120,7 @@ export class VideoComponent implements OnInit {
 
   onDataBind(data) {
     this.title = data.title;
-    this.id = data.id;
+    this.id = data._id;
     this.runningTime = data.runningTime ;
     this.genre = data.genre;
     this.rating = data.rating;
@@ -126,9 +128,8 @@ export class VideoComponent implements OnInit {
     this.status = data.status;
   }
 
-  getDataBind() : IVideo {
+  getDataBind() : any {
     return {
-      id: this.id == 0 ? this.videoList.length + 1 : this.id,
       title: this.title,
       runningTime: this.runningTime,
       genre: this.genre,
@@ -140,7 +141,7 @@ export class VideoComponent implements OnInit {
 
   onClear(){
     this.title = '';
-    this.id = 0;
+    this.id = '';
     this.runningTime = '';
     this.genre = '';
     this.rating = '';

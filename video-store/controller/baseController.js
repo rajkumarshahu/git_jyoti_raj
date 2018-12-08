@@ -12,7 +12,8 @@ class BaseController {
       .create(data)
       .then((modelInstance) => {
         var response = {};
-        response[this.modelName] = modelInstance;
+        response = modelInstance;
+        //[this.modelName]
         return response;
       });
   } 
@@ -23,7 +24,7 @@ class BaseController {
       .findOne(filter)
       .then((modelInstance) => {
         var response = {};
-        response[this.modelName] = modelInstance;
+        response = modelInstance;
         return response;
       });
   }
@@ -44,7 +45,7 @@ class BaseController {
       })
       .then((modelInstance) => {
         var response = {};
-        response[this.modelName] = modelInstance;
+        response = modelInstance;
         return response;
       });
   }
@@ -52,7 +53,6 @@ class BaseController {
   delete(id) {
     const filter = {};
     filter[this.key] = id;
-  
     return this.model
       .remove(filter)
       .then(() => {
@@ -66,7 +66,8 @@ class BaseController {
     .limit(20)
     .then((modelInstances) => {
         var response = {};
-        response[pluralize(this.modelName)] = modelInstances;
+        response = modelInstances;
+        //[pluralize(this.modelName)]
         return response;
     });
   }
