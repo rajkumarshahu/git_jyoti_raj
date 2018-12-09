@@ -9,18 +9,16 @@ import { AuthguardGuard } from './authguard.guard';
 })
 export class AppComponent {
   title = 'Video Store';
-  
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private autoguard: AuthguardGuard
   ) {
   }
-  
 
   onLogout() {
     localStorage.clear();
-    this.autoguard.userName = "" ;
+    this.autoguard.userName = '' ;
     this.autoguard.isLoged = false;
     this.router.navigate(['/home']);
   }

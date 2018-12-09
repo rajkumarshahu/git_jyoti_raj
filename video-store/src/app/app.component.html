@@ -1,6 +1,10 @@
 <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
 <section class="container">
-  <div class="jumbotron text-center"><h1 class="">Video Store</h1> </div>
+  <div class="text-center headers">
+    <h1 class="">
+      Video Store
+    </h1> 
+  </div>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -22,10 +26,10 @@
       </ul>
       <ul class="pull-right">
         <li class="nav-item">
-          <div class="inline">
-          {{autoguard.userName}}
-          <a *ngIf="!autoguard.isLoged" class="nav-link" routerLink="/login">Login</a>
-          <a *ngIf="autoguard.isLoged" class="btn btn-link" (click)="onLogout()">Logout</a>
+          <div class="inline text-success">
+          
+          <a *ngIf="!autoguard.isLoged" class="nav-link text-white" routerLink="/login">Login</a>
+          <a *ngIf="autoguard.isLoged" class="btn btn-link" (click)="onLogout()"><h6>{{autoguard.userName}} Logout</h6></a>
         </div>
         </li>
       </ul>   

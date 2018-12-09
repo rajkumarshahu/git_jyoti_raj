@@ -1,6 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Pipe} from '@angular/core';
 import { ICustomer } from './customer';
 import { Customerservice } from './customerservice';
+
+
+@Pipe({
+  name: 'filters',
+  pure: false
+})
 
 @Component({
   selector: 'app-customer',
@@ -25,7 +31,7 @@ export class CustomerComponent implements OnInit {
     subscribe( p => {
       this.customerList = p;
     }, error => {
-      console.log('error: coouldnot found !');
+      console.log('error: could not find !');
     });
   }
 }

@@ -1,5 +1,6 @@
 <div>
-
+    <span class="glyphicon glyphicon-search"></span>
+  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="query">
 <div class="table table-responsive mt-8">
   <table class="table  table-bordered table-striped table-hover ">
     <tr>
@@ -11,7 +12,7 @@
       <th class="text-center">Status</th>
     </tr>
     <tbody>
-      <tr *ngFor="let customer of customerList">
+      <tr *ngFor="let customer of customerList | search:'firstName':query">
         <td>{{customer.firstName}}</td>
         <td>{{customer.lastName}}</td>
         <td>{{customer.address}}</td>

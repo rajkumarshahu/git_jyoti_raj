@@ -1,11 +1,8 @@
 <div>
   <nav class="navbar navbar-light bg-light">
-    <form class="form-inline ">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
-    </form>
-    <div class="pull-right" *ngIf="autoguard.isLoged">
+      <span class="glyphicon glyphicon-search"></span>
+    <input class="form-control col-lg-7" type="search" placeholder="Search" aria-label="Search" [(ngModel)]="query">
+    <div class="pull-right col-lg-5" *ngIf="autoguard.isLoged">
       <!-- Button trigger modal -->
       <button class="btn btn-outline-primary mb-2 mr-2" (click)="onOpenModal(content, null, 'Add Video', 'save')">Add Video</button>
     </div>
@@ -25,7 +22,7 @@
       <th class="text-center" *ngIf="!autoguard.isLoged"></th>
     </tr>
     <tbody>
-      <tr *ngFor="let v of videoList">
+      <tr *ngFor="let v of videoList | search:'title':query">
         <td>{{v.title}}</td>
         <td>{{v.runningTime}}</td>
         <td>{{v.genre}}</td>
@@ -44,7 +41,7 @@
         </td>
         <td *ngIf="!autoguard.isLoged">
             <button [hidden]="v.status !== 'Available'" type="button" class="btn btn-outline-primary btn-sm" (click)="onOpenModal(content, v, 'Reserved Video', 'Reserved')">
-                Reserverd
+                Reserve
             </button>
           </td>
       </tr>
@@ -65,7 +62,7 @@
           <div class="form-group">
             <label for="title">Title:</label>
             <input *ngIf="autoguard.isLoged" type="text" class="form-control" name="title" [(ngModel)]="title">
-            <label class="lbl_reserved" *ngIf="!autoguard.isLoged">{{title}}</label>
+            <label class="lbl_reserved"  *ngIf="!autoguard.isLoged">{{title}}</label>
           </div>
 
           <div class="form-group">

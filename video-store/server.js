@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const app = express();
 const cors = require('cors');
 
-//Cor
+// Cor
 
 const corsOptions = {
   origin: 'http://localhost:4200',
@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'dist/video-store/')));
 
 // get mongodb connection
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://jyoti:jyoti__9876@ds123624.mlab.com:23624/test_node?authSource=test_node&w=1', { useNewUrlParser: true });
+mongoose.connect('mongodb://raj_1:raj__9876@ds145385.mlab.com:45385/mytasklist_raj?authSource=mytasklist_raj&w=1', { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 

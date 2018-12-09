@@ -1,11 +1,15 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Pipe } from '@angular/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
 import { IVideo } from './video';
 import { Videoservices } from './videoservices';
 import { ICustomer } from '../customer/customer';
 import { Customerservice } from '../customer/customerservice';
 import { AuthguardGuard } from '../authguard.guard';
+
+@Pipe({
+  name: 'filters',
+  pure: false
+})
 
 @Component({
   selector: 'app-video',
@@ -73,7 +77,7 @@ export class VideoComponent implements OnInit {
     subscribe( p => {
       this.customerList = p;
     }, error => {
-      console.log('error: coouldnot found !');
+      console.log('error: could not found !');
     });
   }
 
@@ -82,7 +86,7 @@ export class VideoComponent implements OnInit {
     subscribe( p => {
       this.videoList = p;
     }, (error) => {
-      console.log('error: coouldnot found !' + JSON.stringify(error));
+      console.log('error: could not find !' + JSON.stringify(error));
     });
   }
   onOpenModal(content, data, modelTitle, saveButton) {
@@ -93,15 +97,13 @@ export class VideoComponent implements OnInit {
     data != null ? this.onDataBind(data) : this.onClear();
   }
   onSave() {
-      if (this.id === ''){
+      if (this.id === '') {
       this.videoService.postVideo(this.getDataBind())
       .subscribe(p => {
         this.modalService.dismissAll();
         this.getVideoList();
       }, error => { console.log(error); });
-    }
-    else 
-    {
+    } else{
       this.videoService.putVideo(this.getDataBind(), this.id)
       .subscribe(data => {
         this.modalService.dismissAll();
@@ -109,12 +111,10 @@ export class VideoComponent implements OnInit {
           if (t._id === this.id) { this.videoList[i] = data; }
         });
 
-        }, error => { console.log(error); } 
+        }, error => { console.log(error); }
       );
-      
     }
   }
- 
   onDelete(id) {
     this.videoService.deleteVideo(id)
     .subscribe(p => {
@@ -134,7 +134,7 @@ export class VideoComponent implements OnInit {
     this.status = data.status;
   }
 
-  getDataBind() : any {
+  getDataBind(): any {
     return {
       title: this.title,
       runningTime: this.runningTime,
@@ -142,10 +142,10 @@ export class VideoComponent implements OnInit {
       rating: this.rating,
       director: this.director,
       status: this.saveButton === 'Reserved' ? 'Unavailable' : this.status
-    }
+    };
   }
 
-  onClear(){
+  onClear() {
     this.title = '';
     this.id = '';
     this.runningTime = '';
@@ -154,5 +154,4 @@ export class VideoComponent implements OnInit {
     this.director = '';
     this.status = '';
   }
-  
 }
