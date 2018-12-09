@@ -80,7 +80,6 @@ export class VideoComponent implements OnInit {
   getVideoList() {
     this.videoService.getVideo().
     subscribe( p => {
-      console.log(p);
       this.videoList = p;
     }, (error) => {
       console.log('error: coouldnot found !' + JSON.stringify(error));
@@ -90,31 +89,38 @@ export class VideoComponent implements OnInit {
     this.modelTitle = modelTitle;
     this.saveButton = saveButton;
     this.modalService.open(content);
+    this.onClear();
     data != null ? this.onDataBind(data) : this.onClear();
   }
   onSave() {
-     console.log(this.id);
       if (this.id === ''){
       this.videoService.postVideo(this.getDataBind())
       .subscribe(p => {
-        this.getVideoList();
         this.modalService.dismissAll();
-      }, error => { console.log(error); } );
+        this.getVideoList();
+      }, error => { console.log(error); });
     }
     else 
     {
       this.videoService.putVideo(this.getDataBind(), this.id)
-      .subscribe(p => {
-        this.getVideoList();
+      .subscribe(data => {
         this.modalService.dismissAll();
-      }, error => { console.log(error); } );
+        this.videoList.forEach((t, i) => {
+          if (t._id === this.id) { this.videoList[i] = data; }
+        });
+
+        }, error => { console.log(error); } 
+      );
+      
     }
   }
  
   onDelete(id) {
     this.videoService.deleteVideo(id)
     .subscribe(p => {
-      this.getVideoList();
+      this.videoList.forEach((t, i) => {
+        if (t._id === id) { this.videoList.splice(i, 1); }
+      });
     }, error => { console.log(error); } );
   }
 

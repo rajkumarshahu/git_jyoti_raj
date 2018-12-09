@@ -20,7 +20,7 @@ export class HttpServices {
 
     private extractData(response: Response) {
         const resp = response.json();
-        return resp || {};
+        return resp || resp.result || {};
     }
 
     // GET
@@ -53,7 +53,7 @@ export class HttpServices {
 
     //PUT
     public put(url: string, data: any): Observable<any> {
-        console.log(url);
+
              return this.http.put(url, data, this.options)
                .pipe(
                     map(this.extractData),

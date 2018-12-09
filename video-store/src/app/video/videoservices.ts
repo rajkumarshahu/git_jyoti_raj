@@ -20,8 +20,7 @@ export class Videoservices {
     }
 
     putVideo(data: any, id: any): Observable<any> {
-        this.url = this.url + "/" + id;
-        return this.service.put(this.url, data);   
+        return this.service.put(this.url + "/" + id, data);   
     }
     
     deleteVideo(id: any): Observable<any> {

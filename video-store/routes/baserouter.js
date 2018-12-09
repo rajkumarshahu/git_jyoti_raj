@@ -19,16 +19,15 @@ list(controller, req, res){
     }
   },
   save(controller, req, res){
-
-        if (req.params.id != null) {
-            this.controller
-            .update(req.params.id, req.body)
+        if (Object.keys(req.params).length > 0) {
+            controller
+            .create(req.body, req.params._id)
             .then(utils.ok(res))
             .then(null, utils.fail(res));
         }
        else {
             controller
-            .create(req.body)
+            .create(req.body, null)
             .then(utils.ok(res))
             .then(null, utils.fail(res));
        }
